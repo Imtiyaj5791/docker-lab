@@ -1,0 +1,35 @@
+services:
+  web:
+    build: .
+    image: imtiyaj-flask:latest
+    container_name: flask_app
+    ports:
+      - "5000:5000"
+    networks:
+      - my-net
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: imtiyaj
+      DB_PASSWORD: root
+      DB_NAME: mydb
+
+  db:
+    image: mysql:8
+    container_name: mysql_db
+    networks:
+      - my-net
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: imtiyaj
+      MYSQL_PASSWORD: root
+
+networks:
+  my-net:
+
+volumes:
+  mysql-data:
